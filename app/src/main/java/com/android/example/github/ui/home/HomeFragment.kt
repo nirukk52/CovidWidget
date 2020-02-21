@@ -13,6 +13,8 @@ import com.android.example.github.api.VJavaEndpoint
 import com.android.example.github.binding.FragmentDataBindingComponent
 import com.android.example.github.databinding.HomeFragmentBinding
 import com.android.example.github.util.autoCleared
+import com.verkada.endpoint.kotlin.Motion
+import com.verkada.endpoint.kotlin.VKotlinEndpoint
 import java.util.*
 
 
@@ -43,16 +45,16 @@ class HomeFragment : Fragment(){
 
         binding.click.setOnClickListener {
 
-//            VKotlinEndpoint.searchMotion(5,5, aroundFive,3600){ list: List<Motion>, throwable: Throwable? ->
-//                Log.d(TAG,list.toString())
-//            }
-
-            val vj = VJavaEndpoint()
-
-
-            vj.searchMotion(0, 1, Date(), 3600) { motionList, error ->
-                Log.d(TAG,motionList.toString())
+            VKotlinEndpoint.searchMotion(5,5, aroundFive,3600){ list: List<Motion>, throwable: Throwable? ->
+                Log.d(TAG,list.toString())
             }
+
+//            val vj = VJavaEndpoint()
+//
+//
+//            vj.searchMotion(0, 1, Date(), 3600) { motionList, error ->
+//                Log.d(TAG,motionList.toString())
+//            }
         }
         return dataBinding.root;
     }
