@@ -4,26 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools">
 
         <data>
-
+            <import type="android.view.View"/>
+            <import type="com.android.example.github.R"/>
             <variable
                 name="cell"
                 type="com.verkada.endpoint.kotlin.Cell" />
+            <variable
+                name="index"
+                type="Integer" />
         </data>
 
-<!--    <com.android.example.github.customview.SquareLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
 
         <TextView
             android:id="@+id/cellTv"
             android:layout_width="match_parent"
             android:layout_height="28.4dp"
             android:layout_margin="1dp"
-            android:text="@{cell.row + cell.col}"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@{cell.selected ? R.color.colorCellSelected : 0}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@android:color/holo_blue_dark" />
+            tools:background="@color/colorCellSelected" />
 
-<!--    </com.android.example.github.customview.SquareLayout>-->
 </layout>

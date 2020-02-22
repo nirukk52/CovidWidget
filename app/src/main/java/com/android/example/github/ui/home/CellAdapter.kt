@@ -1,34 +1,32 @@
 package com.android.example.github.ui.home
 
 import android.view.LayoutInflater
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.android.example.github.AppExecutors
 import com.android.example.github.R
 import com.android.example.github.databinding.CellItemBinding
-import com.android.example.github.databinding.ContributorItemBinding
 import com.android.example.github.ui.common.DataBoundListAdapter
-import com.android.example.github.vo.Contributor
 import com.verkada.endpoint.kotlin.Cell
 
-class CellAdapter (
+class CellAdapter(
         private val dataBindingComponent: DataBindingComponent,
         appExecutors: AppExecutors,
-        private val callback: ((Cell) -> Unit)?
+        private val cellClickCallback: ((Int, Boolean) -> Unit)?
 ) : DataBoundListAdapter<Cell, CellItemBinding>(
-appExecutors = appExecutors,
-diffCallback = object : DiffUtil.ItemCallback<Cell>() {
-    override fun areItemsTheSame(oldItem: Cell, newItem: Cell): Boolean {
-        return false;
-    }
+        appExecutors = appExecutors,
+        diffCallback = object : DiffUtil.ItemCallback<Cell>() {
+            override fun areItemsTheSame(oldItem: Cell, newItem: Cell): Boolean {
+                return oldItem.row == newItem.row && oldItem.col == newItem.col
+            }
 
-    override fun areContentsTheSame(oldItem: Cell, newItem: Cell): Boolean {
-        return false;
-    }
-}
+            override fun areContentsTheSame(oldItem: Cell, newItem: Cell): Boolean {
+                return oldItem.selected == newItem.selected;
+            }
+        }
 ) {
 
     override fun createBinding(parent: ViewGroup): CellItemBinding {
@@ -40,16 +38,24 @@ diffCallback = object : DiffUtil.ItemCallback<Cell>() {
                         false,
                         dataBindingComponent
                 )
-//        binding.root.setOnClickListener {
-//            binding.contributor?.let {
-//                callback?.invoke(it, binding.imageView)
-//            }
-//        }
+        binding.root.setOnClickListener {
+            binding.index?.let {
+                cellClickCallback?.invoke(it, true)
+            }
+        }
+        binding.root.setOnLongClickListener {
+            binding.index?.let {
+                cellClickCallback?.invoke(it, false)
+            }
+            false
+        }
         return binding
     }
 
-    override fun bind(binding: CellItemBinding, item: Cell) {
+    override fun bind(binding: CellItemBinding, item: Cell, index: Int) {
         binding.cell = item
+        binding.index = index
     }
+
 
 }

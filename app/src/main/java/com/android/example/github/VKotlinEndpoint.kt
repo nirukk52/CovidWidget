@@ -106,5 +106,6 @@ data class Motion(
 @JsonClass(generateAdapter = true)
 data class Cell(
         val row: Int,
-        val col: Int
+        val col: Int,
+        var selected: Boolean = false
 )

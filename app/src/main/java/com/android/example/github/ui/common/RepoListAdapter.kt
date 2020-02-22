@@ -66,7 +66,7 @@ class RepoListAdapter(
         return binding
     }
 
-    override fun bind(binding: RepoItemBinding, item: Repo) {
+    override fun bind(binding: RepoItemBinding, item: Repo, index:Int) {
         binding.repo = item
     }
 }

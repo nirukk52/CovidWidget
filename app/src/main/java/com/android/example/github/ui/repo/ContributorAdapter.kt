@@ -63,7 +63,7 @@ class ContributorAdapter(
         return binding
     }
 
-    override fun bind(binding: ContributorItemBinding, item: Contributor) {
+    override fun bind(binding: ContributorItemBinding, item: Contributor, index:Int) {
         binding.contributor = item
     }
 }
