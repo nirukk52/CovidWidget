@@ -120,6 +120,7 @@ dependencies {
     implementation "com.squareup.moshi:moshi:1.9.2"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"
 
+
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.contrib
 

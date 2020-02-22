@@ -1,5 +1,6 @@
 package com.verkada.endpoint.kotlin
 
+import androidx.lifecycle.ViewModel
 import com.android.example.github.api.VJavaEndpoint
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
@@ -24,7 +25,7 @@ import java.util.*
  *  apply plugin: 'kotlin-kapt'
  *
  */
-object VKotlinEndpoint {
+object VKotlinEndpoint : ViewModel() {
     private const val BASE_URL = "http://ec2-54-187-236-58.us-west-2.compute.amazonaws.com:8021"
 
     private val retrofit: Retrofit by lazy {
@@ -100,4 +101,10 @@ data class MotionSearchResponse(
 data class Motion(
         val date: Date,
         val durationSeconds: Long
+)
+
+@JsonClass(generateAdapter = true)
+data class Cell(
+        val row: Int,
+        val col: Int
 )

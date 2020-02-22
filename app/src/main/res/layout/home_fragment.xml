@@ -46,5 +46,31 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="5" />
 
+
+        <com.android.example.github.customview.FixedAspectRatioFrameLayout
+            android:id="@+id/motionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/desc">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cellRv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/desc"
+                app:spanCount="10"
+                tools:itemCount="10"
+                tools:listitem="@layout/cell_item" />
+
+
+        </com.android.example.github.customview.FixedAspectRatioFrameLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

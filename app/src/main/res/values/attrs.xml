@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MotionView">
+        <attr name="width_ratio" format="integer" />
+        <attr name="height_ratio" format="integer" />
+    </declare-styleable>
+
+</resources>
