@@ -20,10 +20,10 @@ import androidx.lifecycle.LiveData
 import com.android.example.github.vo.Contributor
 import com.android.example.github.vo.Repo
 import com.android.example.github.vo.User
+import com.verkada.endpoint.kotlin.MotionSearchBody
+import com.verkada.endpoint.kotlin.MotionSearchResponse
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * REST API access points
@@ -52,4 +52,8 @@ interface GithubService {
 
     @GET("search/repositories")
     fun searchRepos(@Query("q") query: String, @Query("page") page: Int): Call<RepoSearchResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/ios/search")
+    fun motionSearch(@Body motionSearchRequest: MotionSearchBody): Call<MotionSearchResponse>
 }

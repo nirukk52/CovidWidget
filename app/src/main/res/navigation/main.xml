@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2018 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,29 +13,39 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:startDestination="@id/homeFragment">
 
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.android.example.github.ui.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/showLogs"
+            app:destination="@id/motionLogFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/motionLogFragment"
+        android:name="com.android.example.github.ui.home.MotionLogFragment"
+        android:label="MotionLogFragment">
     </fragment>
 
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.android.example.github.ui.search.SearchFragment"
-        android:label="SearchFragment" >
+        android:label="SearchFragment">
         <action
             android:id="@+id/showRepo"
             app:destination="@id/repoFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/repoFragment"
         android:name="com.android.example.github.ui.repo.RepoFragment"
-        android:label="RepoFragment" >
+        android:label="RepoFragment">
         <argument
             android:name="owner"
             app:argType="string" />
@@ -47,13 +56,14 @@
             android:id="@+id/showUser"
             app:destination="@id/userFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/userFragment"
         android:name="com.android.example.github.ui.user.UserFragment"
-        android:label="UserFragment" >
+        android:label="UserFragment">
         <argument
             android:name="login"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="avatarUrl"
             android:defaultValue="@null"

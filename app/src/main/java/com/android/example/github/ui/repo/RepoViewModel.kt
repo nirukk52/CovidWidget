@@ -33,6 +33,7 @@ class RepoViewModel @Inject constructor(repository: RepoRepository) : ViewModel(
     private val _repoId: MutableLiveData<RepoId> = MutableLiveData()
     val repoId: LiveData<RepoId>
         get() = _repoId
+
     val repo: LiveData<Resource<Repo>> = _repoId.switchMap { input ->
         input.ifExists { owner, name ->
             repository.loadRepo(owner, name)

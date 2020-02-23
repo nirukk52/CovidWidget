@@ -1,6 +1,9 @@
 package com.verkada.endpoint.kotlin
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.lifecycle.ViewModel
+import androidx.versionedparcelable.ParcelField
 import com.android.example.github.api.VJavaEndpoint
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
@@ -13,6 +16,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -35,25 +39,10 @@ object VKotlinEndpoint : ViewModel() {
                 .build()
     }
 
-    fun searchMotion(row: Int, column: Int, startDate: Date, timeInterval: Long = 3600, callback: CompletionCallback?) {
+    fun searchMotion(motionSearchBody: MotionSearchBody, callback: CompletionCallback?) {
         val api = retrofit.create(Api::class.java)
 
-        val startTimeSec: Long = 1582265703
-        val list: MutableList<List<Int>> = ArrayList()
-        for (i in 0..8) {
-            val motion: MutableList<Int> = ArrayList()
-            motion.add(i)
-            motion.add(i)
-            list.add(motion)
-        }
-
-        val body: MotionSearchBody = MotionSearchBody(
-                list,
-                startTimeSec,
-                startTimeSec + timeInterval
-        )
-
-        api.motionSearch(body).enqueue(object : Callback<MotionSearchResponse> {
+        api.motionSearch(motionSearchBody).enqueue(object : Callback<MotionSearchResponse> {
             override fun onFailure(call: Call<MotionSearchResponse>, t: Throwable) {
                 callback?.invoke(emptyList(), t)
             }
@@ -108,4 +97,26 @@ data class Cell(
         val row: Int,
         val col: Int,
         var selected: Boolean = false
-)
+) : Parcelable {
+    constructor(source: Parcel) : this(
+            source.readInt(),
+            source.readInt(),
+            1 == source.readInt()
+    )
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeInt(row)
+        writeInt(col)
+        writeInt((if (selected) 1 else 0))
+    }
+
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<Cell> = object : Parcelable.Creator<Cell> {
+            override fun createFromParcel(source: Parcel): Cell = Cell(source)
+            override fun newArray(size: Int): Array<Cell?> = arrayOfNulls(size)
+        }
+    }
+}

@@ -18,11 +18,15 @@
         <TextView
             android:id="@+id/cellTv"
             android:layout_width="match_parent"
-            android:layout_height="28.4dp"
-            android:layout_margin="1dp"
+            android:layout_height="wrap_content"
+            tools:text="0 1"
+            android:gravity="center"
+            android:text="@{Integer.toString(cell.row)}"
             android:background="@{cell.selected ? R.color.colorCellSelected : 0}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/colorCellSelected" />
 
+
+<!--    android:text="@{Integer.toString(cell.row)}"-->
 </layout>

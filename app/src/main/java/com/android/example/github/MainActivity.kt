@@ -17,19 +17,34 @@
 package com.android.example.github
 
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.verkada.endpoint.kotlin.Cell
+
+import com.android.example.github.ui.home.MotionSearchViewModel
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+//
+//        val model = ViewModelProvider(this).get(MotionSearchViewModel::class.java)
+//        Log.d("f",model.getCells().value.toString())
+//
+//        model.getCells().observe(this, Observer<ArrayList<Cell>>{ users ->
+//            Log.d("f",users.toString())
+//        })
     }
 
     override fun supportFragmentInjector() = dispatchingAndroidInjector

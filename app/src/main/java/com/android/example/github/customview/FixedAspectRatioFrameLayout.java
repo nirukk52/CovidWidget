@@ -67,4 +67,6 @@ public class FixedAspectRatioFrameLayout extends FrameLayout
                 MeasureSpec.makeMeasureSpec(finalWidth, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(finalHeight, MeasureSpec.EXACTLY));
     }
+
+
 }

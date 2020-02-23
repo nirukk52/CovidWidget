@@ -5,9 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.dragselectrecyclerview.DragSelectReceiver
 import com.afollestad.dragselectrecyclerview.DragSelectTouchListener
 import com.afollestad.dragselectrecyclerview.Mode
@@ -17,17 +24,21 @@ import com.android.example.github.binding.FragmentDataBindingComponent
 import com.android.example.github.databinding.HomeFragmentBinding
 import com.android.example.github.di.Injectable
 import com.android.example.github.util.autoCleared
+import com.bumptech.glide.Glide
 import com.verkada.endpoint.kotlin.Cell
 import com.verkada.endpoint.kotlin.Motion
 import com.verkada.endpoint.kotlin.VKotlinEndpoint
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
 
-    val TAG = "HomeFragment";
+    val TAG = "HomeFragment"
+
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var appExecutors: AppExecutors
@@ -37,8 +48,9 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
 
     private var cellAdapter by autoCleared<CellAdapter>()
 
-    val cellList = arrayListOf<Cell>()
-    private val selectedCells = HashSet<Cell>()
+    val motionSearchViewModel: MotionSearchViewModel by activityViewModels {
+        viewModelFactory
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -50,74 +62,62 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
                 container,
                 false
         )
-
         binding = dataBinding
 
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.HOUR, -7)
-        val aroundFive = cal.time
-
-        binding.click.setOnClickListener {
-
-            VKotlinEndpoint.searchMotion(5, 5, aroundFive, 3600) { list: List<Motion>, throwable: Throwable? ->
-                Log.d(TAG, list.toString())
-            }
+        binding.btMotionSearch.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.showLogs()
+            )
         }
-
-        cellList.addAll(generateCells())
-
 
         return dataBinding.root;
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.lifecycleOwner = viewLifecycleOwner
+
+//        Glide.with(this).load("http://ec2-54-187-236-58.us-west-2.compute.amazonaws.com:8021/ios/thumbnail/1569630000.jpg").into(binding.ivMotionView)
 
         fillCells()
 
     }
+
     private fun fillCells() {
-        binding.lifecycleOwner = viewLifecycleOwner
+
         val dragSelectTouchListener = DragSelectTouchListener.create(context!!, this) {
             disableAutoScroll()
             mode = Mode.PATH
         }
+        binding.cellRv.addOnItemTouchListener(dragSelectTouchListener)
 
-        val cellAdapter = CellAdapter(dataBindingComponent, appExecutors) { index ,toggle ->
-            if(toggle){
-                cellList[index].selected = !cellList[index].selected
-                cellAdapter.notifyItemChanged(index)
-            }else{
+        val cellAdapter = CellAdapter(dataBindingComponent, appExecutors) { index ,longPress ->
+            if(longPress){
                 dragSelectTouchListener.setIsActive(true, index)
+            } else {
+                motionSearchViewModel.toggleCell(index)
             }
         }
         this.cellAdapter = cellAdapter
         binding.cellRv.adapter = cellAdapter
+        this.cellAdapter.submitList(motionSearchViewModel.getCells().value)
 
-        cellAdapter.submitList(cellList)
+        motionSearchViewModel.getCells().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            Log.d(TAG,"" + it.size)
+            this.cellAdapter.notifyDataSetChanged()
+        })
 
-        binding.cellRv.addOnItemTouchListener(dragSelectTouchListener);
     }
 
-    private fun generateCells(row: Int = 9, col: Int = 9): ArrayList<Cell> {
-        val cellList = arrayListOf<Cell>()
-        for (i in 0..row) {
-            for (j in 0..col) {
-                cellList.add(Cell(i, j))
-            }
-        }
-        return cellList;
+    private fun setCellHeight() {
+        (binding.cellRv.layoutManager as GridLayoutManager).spanCount = 20
     }
 
     override fun setSelected(index: Int, selected: Boolean) {
-
-        Log.d(TAG,"Cells Changed" + index)
-        cellList[index].selected = !cellList[index].selected
-        cellAdapter.notifyItemChanged(index)
-
+        motionSearchViewModel.toggleCell(index)
     }
 
     override fun isSelected(index: Int): Boolean {
-        return cellList[index].selected
+        return motionSearchViewModel.getCells().value?.get(index)?.selected!!
     }
 
     override fun isIndexSelectable(index: Int): Boolean {
@@ -125,7 +125,7 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
     }
 
     override fun getItemCount(): Int {
-        return cellList.size
+        return motionSearchViewModel.getCells().value?.size!!
     }
 
 

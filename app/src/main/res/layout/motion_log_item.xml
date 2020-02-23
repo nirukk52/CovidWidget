@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.android.example.github.R"/>
+        <variable
+            name="date"
+            type="String" />
+        <variable
+            name="duration"
+            type="String" />
+    </data>
+
+
+    <TextView
+        android:id="@+id/cellTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@{date}"
+        android:background="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="8dp"
+        />
+
+
+    <!--    android:text="@{Integer.toString(cell.row)}"-->
+</layout>

@@ -17,6 +17,7 @@
 package com.android.example.github.di
 
 import com.android.example.github.ui.home.HomeFragment
+import com.android.example.github.ui.home.MotionLogFragment
 import com.android.example.github.ui.repo.RepoFragment
 import com.android.example.github.ui.search.SearchFragment
 import com.android.example.github.ui.user.UserFragment
@@ -38,4 +39,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeHomeFragment(): HomeFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeMotionLogFragment(): MotionLogFragment
 }
