@@ -15,7 +15,6 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="19"
-            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/motion_log_item" />
 

@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">Github</string>
+    <string name="app_name">Verkada</string>
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
     <string name="a11y_user_photo">user photo</string>
