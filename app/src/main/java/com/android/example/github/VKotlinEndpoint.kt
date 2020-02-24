@@ -2,6 +2,7 @@ package com.verkada.endpoint.kotlin
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import retrofit2.Call
@@ -46,6 +47,8 @@ object VKotlinEndpoint {
             }
 
             override fun onResponse(call: Call<MotionSearchResponse>, response: Response<MotionSearchResponse>) {
+                Log.d("Call ", call.request().url().toString())
+                Log.d("Call ", call.request().body().toString())
                 response.body()?.let {
                     callback?.invoke(it.getMotionAt(), null)
                 } ?: callback?.invoke(emptyList(), null)

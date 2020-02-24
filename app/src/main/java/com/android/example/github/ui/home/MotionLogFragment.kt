@@ -1,6 +1,7 @@
 package com.android.example.github.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +17,9 @@ import com.android.example.github.binding.FragmentDataBindingComponent
 import com.android.example.github.databinding.MotionLogFragmentBinding
 import com.android.example.github.di.Injectable
 import com.android.example.github.util.autoCleared
+import com.google.gson.Gson
 import com.verkada.endpoint.kotlin.MotionSearchBody
 import com.verkada.endpoint.kotlin.VKotlinEndpoint
-import java.sql.Timestamp
 import java.util.*
 import javax.inject.Inject
 
@@ -38,7 +39,7 @@ class MotionLogFragment : Fragment(), Injectable {
 
     private var motionLogAdapter by autoCleared<MotionLogAdapter>()
 
-    val motionSearchViewModel: MotionSearchViewModel by activityViewModels {
+    private val motionSearchViewModel: MotionSearchViewModel by activityViewModels {
         viewModelFactory
     }
 
@@ -65,7 +66,7 @@ class MotionLogFragment : Fragment(), Injectable {
         this.motionLogAdapter = motionLogAdapter
         binding.rvMotionLog.adapter = motionLogAdapter
 
-        val currentTime: Long = System.currentTimeMillis()
+        val currentTime: Long = System.currentTimeMillis() / 1000L
         val list: MutableList<List<Int>> = ArrayList()
 
         motionSearchViewModel.getCells().observe(viewLifecycleOwner, Observer {
@@ -81,8 +82,9 @@ class MotionLogFragment : Fragment(), Injectable {
                     currentTime - 3600000,
                     currentTime
             )
+            Log.d("Call ", Gson().toJson(body))
             VKotlinEndpoint.searchMotion(body) { motionList, _ ->
-                if(motionList.size > 0){
+                if(motionList.isNotEmpty()){
                     this.motionLogAdapter.submitList(motionList)
                     binding.tvLogStatus.visibility = View.GONE
                 } else {
@@ -96,17 +98,6 @@ class MotionLogFragment : Fragment(), Injectable {
 
 
     }
-
-    fun currentTimeSecsUTC(): Long {
-        return Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                .timeInMillis / 1000
-    }
-
-    private fun getOneHourAgo(startTimeSec: Long): Long {
-        val timestamp = Timestamp(startTimeSec - 60 * 60 * 1000)
-        return timestamp.time
-    }
-
 
 }
 
