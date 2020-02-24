@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="19"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/motion_log_item" />
 
@@ -26,6 +27,8 @@
             android:text="@string/status_loading_logs"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
+            android:background="@drawable/cell_deselected"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
