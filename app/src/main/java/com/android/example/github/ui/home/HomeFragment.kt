@@ -28,7 +28,6 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
 
     val TAG = "HomeFragment"
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -41,7 +40,7 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
     private var cellAdapter by autoCleared<CellAdapter>()
 
 
-    val motionSearchViewModel: MotionSearchViewModel by activityViewModels {
+    private val motionSearchViewModel: MotionSearchViewModel by activityViewModels {
         viewModelFactory
     }
 
@@ -64,7 +63,7 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
         }
 
 
-        return dataBinding.root;
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,7 +104,7 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
         binding.cellRv.addOnItemTouchListener(dragSelectTouchListener)
 
         binding.flMotionView.post {
-            val height = binding.flMotionView.height;
+            val height = binding.flMotionView.height
             this.cellAdapter.setCellHeight(calculateHeight(height))
             fillCells()
         }
@@ -118,8 +117,8 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
         return height / noOfColumn!!
     }
 
-    private fun setCellHeight() {
-        (binding.cellRv.layoutManager as GridLayoutManager).spanCount = 20
+    private fun setCellWidth() {
+        (binding.cellRv.layoutManager as GridLayoutManager).spanCount = 10
     }
 
     override fun setSelected(index: Int, selected: Boolean) {

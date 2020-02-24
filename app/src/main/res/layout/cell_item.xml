@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:background="@{cell.selected ? @drawable/cell_selected : @drawable/outline}"
+            android:background="@{cell.selected ? @drawable/cell_selected : @drawable/cell_deselected}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

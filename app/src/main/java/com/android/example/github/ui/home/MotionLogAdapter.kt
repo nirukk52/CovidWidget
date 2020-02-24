@@ -1,7 +1,5 @@
 package com.android.example.github.ui.home
 
-import android.content.Context
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
@@ -9,13 +7,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.android.example.github.AppExecutors
 import com.android.example.github.R
-import com.android.example.github.databinding.CellItemBinding
 import com.android.example.github.databinding.MotionLogItemBinding
 import com.android.example.github.ui.common.DataBoundListAdapter
-import com.verkada.endpoint.kotlin.Cell
 import com.verkada.endpoint.kotlin.Motion
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
-class MotionLogAdapter (
+
+class MotionLogAdapter(
         private val dataBindingComponent: DataBindingComponent,
         appExecutors: AppExecutors
 ) : DataBoundListAdapter<Motion, MotionLogItemBinding>(
@@ -32,19 +32,30 @@ class MotionLogAdapter (
 ) {
 
     override fun createBinding(parent: ViewGroup): MotionLogItemBinding {
-        val binding = DataBindingUtil
-                .inflate<MotionLogItemBinding>(
+        return DataBindingUtil
+                .inflate(
                         LayoutInflater.from(parent.context),
                         R.layout.motion_log_item,
                         parent,
                         false,
                         dataBindingComponent
                 )
-        return binding
     }
 
     override fun bind(binding: MotionLogItemBinding, item: Motion, index: Int) {
-        binding.date = item.date.toString() + " Duration: "+ item.durationSeconds
+        val dateFormatter = SimpleDateFormat("EEE, dd MMM", Locale.US)
+        val timeFormatter = SimpleDateFormat("kk:mm", Locale.US)
+
+        binding.date = dateFormatter.format(item.date)
+        binding.time = timeFormatter.format(item.date)
+
+        val seconds = item.durationSeconds
+        val minute: Long = TimeUnit.SECONDS.toMinutes(seconds) - TimeUnit.SECONDS.toHours(seconds) * 60
+        val second: Long = TimeUnit.SECONDS.toSeconds(seconds) - TimeUnit.SECONDS.toMinutes(seconds) * 60
+
+
+        binding.duration = if (minute != 0L) "$minute mins $second sec"
+        else "$second sec"
     }
 
 }

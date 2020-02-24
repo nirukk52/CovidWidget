@@ -1,9 +1,5 @@
 package com.android.example.github.ui.home
 
-import com.android.example.github.databinding.MotionLogFragmentBinding
-import com.verkada.endpoint.kotlin.MotionSearchBody
-import java.sql.Timestamp
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,17 +9,18 @@ import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.example.github.AppExecutors
 import com.android.example.github.R
 import com.android.example.github.binding.FragmentDataBindingComponent
+import com.android.example.github.databinding.MotionLogFragmentBinding
 import com.android.example.github.di.Injectable
 import com.android.example.github.util.autoCleared
+import com.verkada.endpoint.kotlin.MotionSearchBody
 import com.verkada.endpoint.kotlin.VKotlinEndpoint
+import java.sql.Timestamp
 import java.util.*
-import androidx.lifecycle.Observer
-
 import javax.inject.Inject
 
 
@@ -69,7 +66,7 @@ class MotionLogFragment : Fragment(), Injectable {
         this.motionLogAdapter = motionLogAdapter
         binding.rvMotionLog.adapter = motionLogAdapter
 
-        val startTimeSec: Long = System.currentTimeMillis()
+        val currentTime: Long = System.currentTimeMillis()
         val list: MutableList<List<Int>> = ArrayList()
 
         motionSearchViewModel.getCells().observe(viewLifecycleOwner, Observer {
@@ -82,8 +79,8 @@ class MotionLogFragment : Fragment(), Injectable {
 
             val body = MotionSearchBody(
                     list,
-                    1582265703,
-                    1582269303
+                    currentTime - 3600000,
+                    currentTime
             )
             VKotlinEndpoint.searchMotion(body) { motionList, _ ->
                 Log.d(TAG, motionList.toString())
@@ -91,10 +88,16 @@ class MotionLogFragment : Fragment(), Injectable {
             }
         })
 
+//        starttime 1582265703
+//        endtime 1582269303
 
 
     }
 
+    fun currentTimeSecsUTC(): Long {
+        return Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                .timeInMillis / 1000
+    }
 
     private fun getOneHourAgo(startTimeSec: Long): Long {
         val timestamp = Timestamp(startTimeSec - 60 * 60 * 1000)

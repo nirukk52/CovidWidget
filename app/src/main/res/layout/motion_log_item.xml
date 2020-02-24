@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
-        <import type="com.android.example.github.R"/>
+
+        <import type="android.view.View" />
+
+        <import type="com.android.example.github.R" />
+
         <variable
             name="date"
+            type="String" />
+        <variable
+            name="time"
             type="String" />
         <variable
             name="duration"
@@ -15,17 +21,54 @@
     </data>
 
 
-    <TextView
-        android:id="@+id/cellTv"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@{date}"
-        android:background="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:padding="8dp"
-        />
+        >
 
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{date}"
+            android:textColor="@color/colorMsDate"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Fri, 24 Feb" />
 
-    <!--    android:text="@{Integer.toString(cell.row)}"-->
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{time}"
+            android:textColor="@color/colorMsTime"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            tools:text="14:10" />
+
+        <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{duration}"
+            android:textColor="@color/colorMsTime"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            tools:text="2 hrs 5 min 30 sec" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
