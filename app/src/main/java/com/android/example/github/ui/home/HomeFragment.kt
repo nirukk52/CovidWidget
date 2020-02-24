@@ -1,17 +1,13 @@
 package com.android.example.github.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,10 +21,6 @@ import com.android.example.github.databinding.HomeFragmentBinding
 import com.android.example.github.di.Injectable
 import com.android.example.github.util.autoCleared
 import com.bumptech.glide.Glide
-import com.verkada.endpoint.kotlin.Cell
-import com.verkada.endpoint.kotlin.Motion
-import com.verkada.endpoint.kotlin.VKotlinEndpoint
-import java.util.*
 import javax.inject.Inject
 
 
@@ -48,6 +40,7 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
 
     private var cellAdapter by autoCleared<CellAdapter>()
 
+
     val motionSearchViewModel: MotionSearchViewModel by activityViewModels {
         viewModelFactory
     }
@@ -66,9 +59,10 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
 
         binding.btMotionSearch.setOnClickListener {
             findNavController().navigate(
-                HomeFragmentDirections.showLogs()
+                    HomeFragmentDirections.showLogs()
             )
         }
+
 
         return dataBinding.root;
     }
@@ -76,36 +70,52 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.lifecycleOwner = viewLifecycleOwner
 
-//        Glide.with(this).load("http://ec2-54-187-236-58.us-west-2.compute.amazonaws.com:8021/ios/thumbnail/1569630000.jpg").into(binding.ivMotionView)
+        Glide.with(this)
+                .load("http://ec2-54-187-236-58.us-west-2.compute.amazonaws.com:8021/ios/thumbnail/1569630000.jpg")
+                .into(binding.ivMotionView)
 
+        initAdapter()
         fillCells()
 
     }
 
     private fun fillCells() {
+        cellAdapter.submitList(motionSearchViewModel.getCells().value)
 
+        motionSearchViewModel.getCells().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            this.cellAdapter.notifyDataSetChanged()
+        })
+    }
+
+    private fun initAdapter() {
         val dragSelectTouchListener = DragSelectTouchListener.create(context!!, this) {
             disableAutoScroll()
             mode = Mode.PATH
         }
-        binding.cellRv.addOnItemTouchListener(dragSelectTouchListener)
-
-        val cellAdapter = CellAdapter(dataBindingComponent, appExecutors) { index ,longPress ->
-            if(longPress){
+        val cellAdapter = CellAdapter(dataBindingComponent, appExecutors) { index, longPress ->
+            if (longPress) {
                 dragSelectTouchListener.setIsActive(true, index)
             } else {
                 motionSearchViewModel.toggleCell(index)
             }
         }
+
         this.cellAdapter = cellAdapter
         binding.cellRv.adapter = cellAdapter
-        this.cellAdapter.submitList(motionSearchViewModel.getCells().value)
+        binding.cellRv.addOnItemTouchListener(dragSelectTouchListener)
 
-        motionSearchViewModel.getCells().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d(TAG,"" + it.size)
-            this.cellAdapter.notifyDataSetChanged()
-        })
+        binding.flMotionView.post {
+            val height = binding.flMotionView.height;
+            this.cellAdapter.setCellHeight(calculateHeight(height))
+            fillCells()
+        }
+    }
 
+
+    private fun calculateHeight(height: Int): Int {
+        val lastCell = motionSearchViewModel.getCells().value?.get(motionSearchViewModel.getCells().value!!.size - 1)
+        val noOfColumn = lastCell?.col?.plus(1)
+        return height / noOfColumn!!
     }
 
     private fun setCellHeight() {

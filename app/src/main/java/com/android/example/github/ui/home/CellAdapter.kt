@@ -1,17 +1,12 @@
 package com.android.example.github.ui.home
 
 import android.content.Context
-import android.content.res.Resources
 import android.util.DisplayMetrics
-import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.android.example.github.AppExecutors
 import com.android.example.github.R
 import com.android.example.github.databinding.CellItemBinding
@@ -56,11 +51,9 @@ class CellAdapter(
             }
             false
         }
-        binding.cellTv.height = 81
 
-//        binding.cellTv.viewTreeObserver.addOnGlobalLayoutListener {
-//            binding.cellTv.height = 81
-//        }
+//        binding.cellTv.minimumHeight = cellHeight
+        binding.cellTv.height = cellHeight
 
         return binding
     }
@@ -74,6 +67,15 @@ class CellAdapter(
     private fun convertDpToPixel(dp: Float, context: Context): Float {
         return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
+
+    private var cellHeight = 0;
+
+    fun setCellHeight(int: Int) {
+        cellHeight = int
+    }
+
+
+
 
 //    fun <T, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.updateList(list: List<T>?) {
 //        // ListAdapter<>.submitList() contains (stripped):

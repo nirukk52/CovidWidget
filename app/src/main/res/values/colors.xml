@@ -19,5 +19,6 @@
     <color name="colorPrimaryDark">#0E0E0E</color>
     <color name="colorAccent">#06AFF8</color>
 
-    <color name="colorCellSelected">#1D0E0E0E</color>
+    <color name="colorCellSelected">#5B06AFF8</color>
+    <color name="cellBorderColor">#E2F1F1F1</color>
 </resources>
