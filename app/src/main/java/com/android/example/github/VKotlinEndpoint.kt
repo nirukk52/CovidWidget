@@ -2,9 +2,6 @@ package com.verkada.endpoint.kotlin
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.lifecycle.ViewModel
-import androidx.versionedparcelable.ParcelField
-import com.android.example.github.api.VJavaEndpoint
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import retrofit2.Call
@@ -16,7 +13,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import java.util.*
-import kotlin.collections.ArrayList
+import javax.inject.Singleton
 
 
 /**
@@ -29,7 +26,8 @@ import kotlin.collections.ArrayList
  *  apply plugin: 'kotlin-kapt'
  *
  */
-object VKotlinEndpoint : ViewModel() {
+@Singleton
+object VKotlinEndpoint {
     private const val BASE_URL = "http://ec2-54-187-236-58.us-west-2.compute.amazonaws.com:8021"
 
     private val retrofit: Retrofit by lazy {

@@ -1,7 +1,6 @@
 package com.android.example.github.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,8 +82,12 @@ class MotionLogFragment : Fragment(), Injectable {
                     currentTime
             )
             VKotlinEndpoint.searchMotion(body) { motionList, _ ->
-                Log.d(TAG, motionList.toString())
-                this.motionLogAdapter.submitList(motionList)
+                if(motionList.size > 0){
+                    this.motionLogAdapter.submitList(motionList)
+                    binding.tvLogStatus.visibility = View.GONE
+                } else {
+                    binding.tvLogStatus.text = getString(R.string.status_no_logs)
+                }
             }
         })
 

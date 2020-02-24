@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.example.github.repository.RepoRepository
 import com.android.example.github.testing.OpenForTesting
 import com.verkada.endpoint.kotlin.Cell
 import java.sql.Timestamp
@@ -14,19 +13,29 @@ import javax.inject.Inject
 
 
 @OpenForTesting
-class MotionSearchViewModel @Inject constructor(repository: RepoRepository):  ViewModel() {
+class MotionSearchViewModel @Inject constructor() :  ViewModel() {
 
     val TAG = "MotionSearchViewModel"
 
     private val cells: MutableLiveData<ArrayList<Cell>> =  MutableLiveData(generateCells())
 
+    private val cellUpdateIndex: MutableLiveData<Int> =  MutableLiveData(-1)
+
     fun getCells(): LiveData<ArrayList<Cell>>{
         return cells
     }
 
+    fun getCellUpdateIndex(): LiveData<Int>{
+        return cellUpdateIndex
+    }
+
+    fun setCellUpdateIndex(index: Int){
+         cellUpdateIndex.value = index
+    }
+
     fun toggleCell(index : Int){
         cells.value?.get(index)?.selected = !cells.value?.get(index)?.selected!!
-        cells.value = cells.value
+        cellUpdateIndex.value = index
         Log.d(TAG, cells.value?.get(index).toString());
     }
 

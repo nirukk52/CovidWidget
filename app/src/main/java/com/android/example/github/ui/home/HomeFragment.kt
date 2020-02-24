@@ -1,6 +1,7 @@
 package com.android.example.github.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,6 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
 
     private var cellAdapter by autoCleared<CellAdapter>()
 
-
     private val motionSearchViewModel: MotionSearchViewModel by activityViewModels {
         viewModelFactory
     }
@@ -57,6 +57,7 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
         binding = dataBinding
 
         binding.btMotionSearch.setOnClickListener {
+            motionSearchViewModel.setCellUpdateIndex(-1)
             findNavController().navigate(
                     HomeFragmentDirections.showLogs()
             )
@@ -81,8 +82,17 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
     private fun fillCells() {
         cellAdapter.submitList(motionSearchViewModel.getCells().value)
 
-        motionSearchViewModel.getCells().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            this.cellAdapter.notifyDataSetChanged()
+//        motionSearchViewModel.getCells().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+//            this.cellAdapter.notifyDataSetChanged()
+//        })
+
+        motionSearchViewModel.getCellUpdateIndex().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            Log.d(TAG, " Celladapter observed index " + it)
+            if(it < 0) {
+                this.cellAdapter.notifyDataSetChanged()
+            } else {
+                this.cellAdapter.notifyItemChanged(it)
+            }
         })
     }
 
@@ -106,6 +116,7 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
         binding.flMotionView.post {
             val height = binding.flMotionView.height
             this.cellAdapter.setCellHeight(calculateHeight(height))
+            Log.d(TAG, " Celladapter setheight")
             fillCells()
         }
     }

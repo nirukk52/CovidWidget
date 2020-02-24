@@ -3,6 +3,7 @@ package com.android.example.github.ui.home
 import android.content.Context
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
@@ -40,19 +41,28 @@ class CellAdapter(
                         false,
                         dataBindingComponent
                 )
-        binding.root.setOnClickListener {
-            binding.index?.let {
-                cellClickCallback?.invoke(it, false)
-            }
-        }
-        binding.root.setOnLongClickListener {
-            binding.index?.let {
-                cellClickCallback?.invoke(it, true)
-            }
-            false
-        }
+//        binding.root.setOnClickListener {
+//            binding.index?.let {
+//                cellClickCallback?.invoke(it, true)
+//            }
+//        }
+//        binding.root.set
 
-//        binding.cellTv.minimumHeight = cellHeight
+        binding.root.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                binding.index?.let {
+                    cellClickCallback?.invoke(it, true)
+                }
+            }
+            true
+        }
+//        binding.root.setOnLongClickListener {
+//            binding.index?.let {
+//                cellClickCallback?.invoke(it, true)
+//            }
+//            false
+//        }
+
         binding.cellTv.height = cellHeight
 
         return binding
@@ -73,8 +83,6 @@ class CellAdapter(
     fun setCellHeight(int: Int) {
         cellHeight = int
     }
-
-
 
 
 //    fun <T, VH : RecyclerView.ViewHolder> ListAdapter<T, VH>.updateList(list: List<T>?) {
