@@ -62,6 +62,10 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
             )
         }
 
+        binding.tvClearSelection.setOnClickListener {
+            motionSearchViewModel.clearSelection()
+        }
+
         return dataBinding.root
     }
 
@@ -121,7 +125,7 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
     }
 
     /**
-     * Setting height of every view with according to the number of columns.
+     * Setting height of every item in recyclerview with according to the number of columns.
      * We can create 10*10 or any n*n equally spaced grid for any aspect ratio.
      */
     private fun calculateHeight(height: Int) {

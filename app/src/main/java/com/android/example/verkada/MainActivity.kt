@@ -30,7 +30,7 @@ import javax.inject.Inject
  *
  * Displaying equally spaced grid is done by creating an recycler view gridManager and attaching drag to select listener to it.
  * Created a POJO class Cell to hold row & col and also selected/deselected state.
- * Cell height and width is calculated and applied at runtime.
+ * Cell height and width is calculated and applied at runtime. It is calculated such that it should work for any device screen and any n*n matrix.
  *
  * MotionSearchViewModel class for generating cells.
  * Didn't touch the provided retrofit class.

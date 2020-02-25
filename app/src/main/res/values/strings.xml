@@ -28,4 +28,5 @@
     <string name="status_no_logs">There was no activity in the last one hour in the selected region.</string>
     <string name="help_drag">Drag the above region to select search area!</string>
     <string name="btMotionSearch">Search Motion In Selected Area</string>
+    <string name="clear_selection">Tap to clear selection!</string>
 </resources>

@@ -52,4 +52,9 @@ class MotionSearchViewModel @Inject constructor() :  ViewModel() {
         return cellList
     }
 
+    fun clearSelection(){
+        cells.value?.clear()
+        cellUpdateIndex.value = -1
+        cells.value?.addAll(generateCells())
+    }
 }

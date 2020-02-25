@@ -11,10 +11,9 @@
             android:id="@+id/flMotionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <ImageView
@@ -34,7 +33,7 @@
         </com.android.example.verkada.customviews.FixedAspectRatioFrameLayout>
 
         <TextView
-            android:id="@+id/tvLogStatus"
+            android:id="@+id/tvHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/cell_deselected"
@@ -43,25 +42,39 @@
             android:text="@string/help_drag"
             android:textColor="@color/colorMsDate"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/btMotionSearch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btMotionSearch"
-            app:layout_constraintTop_toBottomOf="@id/flMotionView"
-            />
+            app:layout_constraintTop_toBottomOf="@id/flMotionView" />
 
         <Button
             android:id="@+id/btMotionSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btMotionSearch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:background="@color/colorAccent"
             android:padding="8dp"
+            android:text="@string/btMotionSearch"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flMotionView" />
 
+
+        <TextView
+            android:id="@+id/tvClearSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/cell_deselected"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/clear_selection"
+            android:textColor="@color/colorMsDate"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btMotionSearch" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
