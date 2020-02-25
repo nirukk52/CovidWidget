@@ -16,10 +16,6 @@
 
 package com.android.example.github.util
 
-import com.android.example.github.vo.Contributor
-import com.android.example.github.vo.Repo
-import com.android.example.github.vo.User
-
 object TestUtil {
 
     fun createUser(login: String) = User(

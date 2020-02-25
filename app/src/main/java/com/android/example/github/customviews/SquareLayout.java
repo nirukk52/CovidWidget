@@ -1,4 +1,4 @@
-package com.android.example.github.customview;
+package com.android.example.github.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;

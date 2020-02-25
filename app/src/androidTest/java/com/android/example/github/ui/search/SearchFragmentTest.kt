@@ -24,42 +24,23 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.pressKey
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.android.example.github.R
 import com.android.example.github.binding.FragmentBindingAdapters
 import com.android.example.github.testing.SingleFragmentActivity
-import com.android.example.github.util.CountingAppExecutorsRule
-import com.android.example.github.util.DataBindingIdlingResourceRule
-import com.android.example.github.util.EspressoTestUtil
-import com.android.example.github.util.RecyclerViewMatcher
-import com.android.example.github.util.TaskExecutorWithIdlingResourceRule
-import com.android.example.github.util.TestUtil
-import com.android.example.github.util.ViewModelUtil
-import com.android.example.github.util.mock
-import com.android.example.github.vo.Repo
-import com.android.example.github.vo.Resource
+import com.android.example.github.util.*
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.doNothing
-import org.mockito.Mockito.doReturn
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 
 @RunWith(AndroidJUnit4::class)
 class SearchFragmentTest {
@@ -86,6 +67,9 @@ class SearchFragmentTest {
     @Before
     fun init() {
         viewModel = mock(SearchViewModel::class.java)
+
+
+
         doReturn(loadMoreStatus).`when`(viewModel).loadMoreStatus
         `when`(viewModel.results).thenReturn(results)
 

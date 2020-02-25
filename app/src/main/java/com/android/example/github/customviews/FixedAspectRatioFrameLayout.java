@@ -1,11 +1,8 @@
-package com.android.example.github.customview;
+package com.android.example.github.customviews;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-
-import com.android.example.github.R;
 
 public class FixedAspectRatioFrameLayout extends FrameLayout
 {

@@ -31,13 +31,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-//
-//        val model = ViewModelProvider(this).get(MotionSearchViewModel::class.java)
-//        Log.d("f",model.getCells().value.toString())
-//
-//        model.getCells().observe(this, Observer<ArrayList<Cell>>{ users ->
-//            Log.d("f",users.toString())
-//        })
     }
 
     override fun supportFragmentInjector() = dispatchingAndroidInjector

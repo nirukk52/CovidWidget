@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.android.example.github.customview.FixedAspectRatioFrameLayout
+        <com.android.example.github.customviews.FixedAspectRatioFrameLayout
             android:id="@+id/flMotionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                 app:spanCount="10"
                 tools:listitem="@layout/cell_item" />
 
-        </com.android.example.github.customview.FixedAspectRatioFrameLayout>
+        </com.android.example.github.customviews.FixedAspectRatioFrameLayout>
 
         <TextView
             android:id="@+id/tvLogStatus"
