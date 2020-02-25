@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.android.example.github.customviews.FixedAspectRatioFrameLayout
+        <com.android.example.verkada.customviews.FixedAspectRatioFrameLayout
             android:id="@+id/flMotionView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                 app:spanCount="10"
                 tools:listitem="@layout/cell_item" />
 
-        </com.android.example.github.customviews.FixedAspectRatioFrameLayout>
+        </com.android.example.verkada.customviews.FixedAspectRatioFrameLayout>
 
         <TextView
             android:id="@+id/tvLogStatus"
@@ -53,7 +53,7 @@
             android:id="@+id/btMotionSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search Motion In Selected Area"
+            android:text="@string/btMotionSearch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@color/colorAccent"

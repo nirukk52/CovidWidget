@@ -26,5 +26,6 @@
     <string name="a11y_contributor_avatar">contributor avatar</string>
     <string name="status_loading_logs">"Hang on tight!\nFetching motion logs of the selected area.</string>
     <string name="status_no_logs">There was no activity in the last one hour in the selected region.</string>
-    <string name="help_drag">Drag the above region to select and search!</string>
+    <string name="help_drag">Drag the above region to select search area!</string>
+    <string name="btMotionSearch">Search Motion In Selected Area</string>
 </resources>

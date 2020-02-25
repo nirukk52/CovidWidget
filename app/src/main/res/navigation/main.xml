@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.android.example.github.ui.home.HomeFragment"
+        android:name="com.android.example.verkada.ui.home.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/showLogs"
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/motionLogFragment"
-        android:name="com.android.example.github.ui.home.MotionLogFragment"
+        android:name="com.android.example.verkada.ui.motionlog.MotionLogFragment"
         android:label="MotionLogFragment">
     </fragment>
 

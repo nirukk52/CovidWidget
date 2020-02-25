@@ -23,18 +23,18 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 allOpen {
     // allows mocking for classes w/o directly opening them for release builds
-    annotation 'com.android.example.github.testing.OpenClass'
+    annotation 'com.android.example.verkada.testing.OpenClass'
 }
 android {
     compileSdkVersion build_versions.target_sdk
     buildToolsVersion build_versions.build_tools
     defaultConfig {
-        applicationId "com.android.example.github"
+        applicationId "com.android.example.verkada"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.android.example.github.util.GithubTestRunner"
+        testInstrumentationRunner "com.android.example.verkada.util.GithubTestRunner"
     }
     buildTypes {
         debug {
@@ -113,9 +113,6 @@ dependencies {
     androidTestImplementation deps.cardview
     androidTestImplementation deps.material
 
-
-
-    implementation "com.squareup.retrofit2:retrofit:2.4.0"
     implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
     implementation "com.squareup.moshi:moshi:1.9.2"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"
