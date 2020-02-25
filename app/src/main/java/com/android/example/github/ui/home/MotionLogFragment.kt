@@ -1,7 +1,6 @@
 package com.android.example.github.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.android.example.github.binding.FragmentDataBindingComponent
 import com.android.example.github.databinding.MotionLogFragmentBinding
 import com.android.example.github.di.Injectable
 import com.android.example.github.util.autoCleared
-import com.google.gson.Gson
 import com.verkada.endpoint.kotlin.MotionSearchBody
 import com.verkada.endpoint.kotlin.VKotlinEndpoint
 import java.util.*
@@ -54,19 +52,22 @@ class MotionLogFragment : Fragment(), Injectable {
                 container,
                 false
         )
-
         binding = dataBinding
-
         return dataBinding.root
     }
 
+    /**
+     * Tested times:
+     * starttime 1582265703
+     * endtime 1582269303
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val motionLogAdapter = MotionLogAdapter(dataBindingComponent, appExecutors)
         this.motionLogAdapter = motionLogAdapter
         binding.rvMotionLog.adapter = motionLogAdapter
 
-        val currentTime: Long = System.currentTimeMillis() / 1000L
+        val currentTime: Long = System.currentTimeMillis() / 1000
         val list: MutableList<List<Int>> = ArrayList()
 
         motionSearchViewModel.getCells().observe(viewLifecycleOwner, Observer {
@@ -79,10 +80,10 @@ class MotionLogFragment : Fragment(), Injectable {
 
             val body = MotionSearchBody(
                     list,
-                    currentTime - 3600000,
+                    currentTime - 3600,
                     currentTime
             )
-            Log.d("Call ", Gson().toJson(body))
+
             VKotlinEndpoint.searchMotion(body) { motionList, _ ->
                 if(motionList.isNotEmpty()){
                     this.motionLogAdapter.submitList(motionList)
@@ -92,11 +93,6 @@ class MotionLogFragment : Fragment(), Injectable {
                 }
             }
         })
-
-//        starttime 1582265703
-//        endtime 1582269303
-
-
     }
 
 }

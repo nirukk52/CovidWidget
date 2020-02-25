@@ -1,7 +1,6 @@
 package com.android.example.github.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import com.android.example.github.di.Injectable
 import com.android.example.github.util.autoCleared
 import com.bumptech.glide.Glide
 import javax.inject.Inject
-
 
 class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
 
@@ -63,7 +61,6 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
             )
         }
 
-
         return dataBinding.root
     }
 
@@ -77,23 +74,6 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
         initAdapter()
         fillCells()
 
-    }
-
-    private fun fillCells() {
-        cellAdapter.submitList(motionSearchViewModel.getCells().value)
-
-//        motionSearchViewModel.getCells().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-//            this.cellAdapter.notifyDataSetChanged()
-//        })
-
-        motionSearchViewModel.getCellUpdateIndex().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d(TAG, " Celladapter observed index " + it)
-            if(it < 0) {
-                this.cellAdapter.notifyDataSetChanged()
-            } else {
-                this.cellAdapter.notifyItemChanged(it)
-            }
-        })
     }
 
     private fun initAdapter() {
@@ -113,25 +93,55 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
         binding.cellRv.adapter = cellAdapter
         binding.cellRv.addOnItemTouchListener(dragSelectTouchListener)
 
+        createGrid()
+    }
+
+    private fun fillCells() {
+        cellAdapter.submitList(motionSearchViewModel.getCells().value)
+
+        motionSearchViewModel.getCellUpdateIndex().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it < 0) {
+                this.cellAdapter.notifyDataSetChanged()
+            } else {
+                this.cellAdapter.notifyItemChanged(it)
+            }
+        })
+    }
+
+    /**
+     * Below code is the logic behind equally spaced grid for 4:3 aspect ratio grid
+     */
+    private fun createGrid() {
         binding.flMotionView.post {
             val height = binding.flMotionView.height
-            this.cellAdapter.setCellHeight(calculateHeight(height))
-            Log.d(TAG, " Celladapter setheight")
+            calculateHeight(height)
             fillCells()
         }
     }
 
-
-    private fun calculateHeight(height: Int): Int {
+    /**
+     * Setting height of every view with according to the number of columns.
+     * We can create 10*10 or any n*n equally spaced grid for any aspect ratio.
+     */
+    private fun calculateHeight(height: Int) {
         val lastCell = motionSearchViewModel.getCells().value?.get(motionSearchViewModel.getCells().value!!.size - 1)
         val noOfColumn = lastCell?.col?.plus(1)
-        return height / noOfColumn!!
+        setCellWidth(noOfColumn!!)
+        setCellHeight(height / noOfColumn)
     }
 
-    private fun setCellWidth() {
-        (binding.cellRv.layoutManager as GridLayoutManager).spanCount = 10
+    private fun setCellWidth(noOfRow: Int) {
+        (binding.cellRv.layoutManager as GridLayoutManager).spanCount = noOfRow
     }
 
+    private fun setCellHeight(height: Int) {
+        this.cellAdapter.setCellHeight(height)
+    }
+
+
+    /**
+     * Callbacks for drag and select.
+     */
     override fun setSelected(index: Int, selected: Boolean) {
         motionSearchViewModel.toggleCell(index)
     }
@@ -147,7 +157,6 @@ class HomeFragment : Fragment(), DragSelectReceiver, Injectable {
     override fun getItemCount(): Int {
         return motionSearchViewModel.getCells().value?.size!!
     }
-
 
 }
 
